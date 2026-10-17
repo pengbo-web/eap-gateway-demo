@@ -1,0 +1,56 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: eap-gateway-server
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: root
+    password: 123456
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    listener:
+      simple:
+        acknowledge-mode: manual
+        concurrency: 4
+        max-concurrency: 8
+        prefetch: 50
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 14
+
+# 网关自有配置
+eap:
+  gateway:
+    # Modbus TCP 从站模拟器地址列表(host:port:unitId:pollMs)
+    modbus-targets:
+      - 127.0.0.1:1502:1:1000
+    # SECS/GEM 设备模拟器(host:port)
+    secs-targets:
+      - 127.0.0.1:5020
+    # MQTT broker
+    mqtt:
+      broker: tcp://localhost:1883
+      topic: eap/dev/+/telemetry
+    # 心跳离线判定: 超过 interval-ms 的倍数未上报视为离线
+    offline-factor: 3
+    # 设备->MES 流转批次映射
+    device-sn-map:
+      DEV-MB-01: SN-EAP-DEMO-003
+      DEV-SECS-01: SN-EAP-DEMO-004
+      DEV-MQ-01: SN-EAP-DEMO-002
+    # 阈值告警规则(参数名->上限)
+    thresholds:
+      v: 245.0
+  tdengine:
+    url: jdbc:TAOS-RS://127.0.0.1:6041
+    username: root
+    password: taosdata
+
+logging:
+  level:
+    com.pengbo.eap: info
