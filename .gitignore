@@ -1,0 +1,17 @@
+# Python 运行环境
+.venv/
+__pycache__/
+*.pyc
+
+# IDE
+.idea/
+
+# 构建产物
+eap-gateway-server/target/
+
+# 日志与本地环境
+*.log
+.env
+
+# 已放弃的 secsgem 实验脚本(依赖公网不可得, 由 secs_sim_raw.py 替代)
+secs_sim.py

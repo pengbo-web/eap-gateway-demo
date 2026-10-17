@@ -1,0 +1,5 @@
+redis
+requests
+pycryptodome
+bcrypt
+websocket-client
