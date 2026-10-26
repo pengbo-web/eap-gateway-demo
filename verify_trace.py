@@ -6,8 +6,8 @@ import requests
 
 BASE = "http://127.0.0.1:8188"
 
-# 正向: 件级追溯树
-f = requests.get(BASE + "/mes/trace/forward/SN-EAP-DEMO-003", timeout=30).json()
+# 正向: 件级追溯树(静态夹具 SN, 不挂活数据流, 避免实时报工撑爆组装)
+f = requests.get(BASE + "/mes/trace/forward/SN-TRACE-DEMO", timeout=30).json()
 assert f["code"] == 200, f
 tasks = f["data"]["tasks"]
 assert len(tasks) >= 1, "正向追溯无任务节点"
