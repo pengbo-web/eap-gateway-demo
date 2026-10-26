@@ -122,6 +122,13 @@ def main():
         print("\n组件未就绪, 请先按 README 启动顺序拉起环境")
         sys.exit(1)
 
+    # 业务种子(新建库可复现): MRP BOM/FIFO 台账/OEE 设备行/追溯工单/演示任务负载迁移
+    seed = os.path.join(FIXTURES, "demo_seed.sql")
+    subprocess.run(["docker", "cp", seed, "hme-mysql:/tmp/e2e_seed.sql"], capture_output=True)
+    subprocess.run(["docker", "exec", "hme-mysql", "sh", "-c",
+                    "mysql -uroot -p123456 --default-character-set=utf8mb4 liaoyun < /tmp/e2e_seed.sql"],
+                   capture_output=True)
+
     suite = [
         ("T1  Modbus 断线重连", "verify_t1.py", None),
         ("T1b Modbus 超时重发", "verify_t1b.py", None),
